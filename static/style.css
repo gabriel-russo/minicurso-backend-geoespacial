@@ -1,0 +1,143 @@
+:root {
+  --fundo: #0f172a;
+  --painel: #111827;
+  --texto: #e5e7eb;
+  --texto-suave: #94a3b8;
+  --borda: #1f2937;
+  --online: #4ade80;
+  --offline: #f87171;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--fundo);
+  color: var(--texto);
+}
+
+.topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--painel);
+  border-bottom: 1px solid var(--borda);
+}
+
+.titulo h1 {
+  margin: 0;
+  font-size: 1.1rem;
+  letter-spacing: 0.01em;
+}
+
+.titulo p {
+  margin: 0.15rem 0 0;
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+}
+
+.informacoes {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+}
+
+.contador {
+  color: var(--texto-suave);
+}
+
+.status {
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: #334155;
+  color: #cbd5e1;
+  white-space: nowrap;
+}
+
+.status.online {
+  background: rgba(34, 197, 94, 0.15);
+  color: var(--online);
+}
+
+.status.offline {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--offline);
+}
+
+#mapa {
+  flex: 1;
+  min-height: 0;
+  background: #1e293b;
+}
+
+.rodape {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+  background: var(--painel);
+  border-top: 1px solid var(--borda);
+}
+
+/* Conteúdo do popup (fundo branco padrão do Leaflet) */
+.popup h3 {
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+  color: #0f172a;
+}
+
+.popup p {
+  margin: 0.2rem 0;
+  font-size: 0.8rem;
+  color: #475569;
+}
+
+.popup button {
+  width: 100%;
+  margin-top: 0.6rem;
+  padding: 0.45rem 0.6rem;
+  border: 0;
+  border-radius: 0.4rem;
+  background: #dc2626;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.popup button:hover {
+  background: #b91c1c;
+}
+
+.leaflet-container {
+  font-family: inherit;
+}
+
+@media (max-width: 640px) {
+  .topo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .rodape {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+}
