@@ -1,13 +1,13 @@
-"""Verifica se o Python e o banco estão prontos para o minicurso."""
-
-from __future__ import annotations
+"""
+Verifica se o Python e o banco estão prontos para o minicurso.
+"""
 
 import sqlite3
 import sys
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-DB_PATH = BASE_DIR / "data" / "mapa.sqlite"
+DB_PATH = BASE_DIR / "app" / "database" / "mapa.sqlite"
 
 
 def falhar(mensagem: str) -> int:
@@ -27,7 +27,7 @@ def main() -> int:
         print(f"OK  SpatiaLite {versao} carregado no Python")
         print(f"OK  GEOS {geos}")
         conn.close()
-    except Exception:
+    except:
         return falhar(
             "não foi possível carregar a extensão mod_spatialite.\n"
             "No Ubuntu/WSL: sudo apt install -y libsqlite3-mod-spatialite"

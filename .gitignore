@@ -3,9 +3,9 @@ __pycache__/
 *.py[cod]
 
 # Banco gerado pelo schema.sql (cada aluno cria o seu)
-data/*.sqlite
-data/*.sqlite-wal
-data/*.sqlite-shm
-
+mapa.*
+public/
 .idea/
 .DS_Store
+.vscode
+dev/
