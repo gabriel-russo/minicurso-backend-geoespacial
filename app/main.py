@@ -17,8 +17,8 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None]:
 
 
 app = FastAPI(
-    title="Mapa Colaborativo",
-    description="Minicurso de Geoinformática: FastAPI + WebSocket + SpatiaLite",
+    title="API de Mapa colaborativo",
+    description="API do minicurso",
     lifespan=lifespan,
 )
 

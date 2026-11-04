@@ -8,9 +8,7 @@ def valid_geometry(geometry: dict) -> bool:
         if not geom.is_valid:
             return False
 
-        if geom.is_empty:
-            return False
+        return not geom.is_empty
 
-        return True
-    except Exception:
+    except:  # noqa: E722
         return False

@@ -16,28 +16,28 @@
 -- 1. Quantidade de geometrias por tipo
 SELECT ST_GeometryType(geom) AS tipo,
        COUNT(*)             AS quantidade
-  FROM features
+  FROM tb_desenhos
  GROUP BY tipo
  ORDER BY quantidade DESC;
 
 -- 2. Área dos polígonos em km²
 SELECT id,
        ROUND(ST_Area(ST_Transform(geom, 31980)) / 1000000.0, 2) AS area_km2
-  FROM features
+  FROM tb_desenhos
  WHERE ST_GeometryType(geom) = 'POLYGON'
  ORDER BY area_km2 DESC;
 
 -- 3. Comprimento das linhas em km
 SELECT id,
        ROUND(ST_Length(ST_Transform(geom, 31980)) / 1000.0, 2) AS comprimento_km
-  FROM features
+  FROM tb_desenhos
  WHERE ST_GeometryType(geom) = 'LINESTRING'
  ORDER BY comprimento_km DESC;
 
 -- 4. Geometrias que intersectam uma caixa (bbox) ao redor de Porto Velho
 SELECT id,
        ST_GeometryType(geom) AS tipo
-  FROM features
+  FROM tb_desenhos
  WHERE ST_Intersects(
            geom,
            BuildMbr(-64.0, -9.0, -63.5, -8.5, 4326)
@@ -57,5 +57,5 @@ SELECT f.id,
            ST_Distance(ST_Transform(f.geom, 31980), unir.geom),
            1
        ) AS distancia_m
-  FROM features AS f, unir
+  FROM tb_desenhos AS f, unir
  ORDER BY distancia_m;

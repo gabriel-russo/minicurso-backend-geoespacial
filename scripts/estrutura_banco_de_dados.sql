@@ -9,16 +9,18 @@
 -- WAL permite ler o banco com a API rodando, sem bloquear as escritas.
 PRAGMA journal_mode = WAL;
 
-CREATE TABLE desenho (
+CREATE TABLE tb_desenhos (
     id        INTEGER PRIMARY KEY AUTOINCREMENT,
     criado_por TEXT NOT NULL DEFAULT 'Anon',
     criado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 SELECT AddGeometryColumn(
-    'desenho', -- nome da tabela (ALTER TABLE desenho)
+    'tb_desenhos', -- nome da tabela (ALTER TABLE desenho)
     'geom', -- Nome da coluna (ADD COLUMN geom)
     4326, -- SRID
     'GEOMETRY', -- Tipo da geometria
     'XY' -- Geometria do tipo 2D
 );
+
+SELECT CreateSpatialIndex('tb_desenhos', 'geom');

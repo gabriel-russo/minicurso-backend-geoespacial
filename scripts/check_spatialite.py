@@ -36,7 +36,7 @@ def main() -> int:
     if not DB_PATH.exists():
         return falhar(
             f"banco não encontrado em {DB_PATH}.\n"
-            "Crie o banco com: spatialite data/mapa.sqlite < schema.sql"
+            "Crie o banco com: spatialite app/database/mapa.sqlite < scripts/estrutura_banco_de_dados.sql"
         )
 
     # 2. O banco precisa ter a tabela espacial criada pelo schema.sql.
@@ -48,7 +48,7 @@ def main() -> int:
         """
         SELECT srid
           FROM geometry_columns
-         WHERE f_table_name = 'features'
+         WHERE f_table_name = 'tb_desenhos'
            AND f_geometry_column = 'geom'
         """
     ).fetchone()
@@ -56,26 +56,26 @@ def main() -> int:
     if registro is None:
         conn.close()
         return falhar(
-            "a tabela espacial features/geom não existe.\n"
-            "Recrie o banco com: rm -f data/mapa.sqlite && "
-            "spatialite data/mapa.sqlite < schema.sql"
+            "a tabela espacial tb_desenhos/geom não existe.\n"
+            "Recrie o banco com: rm -f app/database/mapa.sqlite && "
+            "spatialite app/database/mapa.sqlite < scripts/estrutura_banco_de_dados.sql"
         )
 
-    indice = conn.execute("SELECT CheckSpatialIndex('features', 'geom')").fetchone()[0]
-    total = conn.execute("SELECT COUNT(*) FROM features").fetchone()[0]
+    indice = conn.execute("SELECT CheckSpatialIndex('tb_desenhos', 'geom')").fetchone()[
+        0
+    ]
+
+    total = conn.execute("SELECT COUNT(*) FROM tb_desenhos").fetchone()[0]
+
     conn.close()
 
     if indice != 1:
-        return falhar(
-            "o índice espacial não está ativo.\n"
-            "Recrie o banco com: rm -f data/mapa.sqlite && "
-            "spatialite data/mapa.sqlite < schema.sql"
-        )
+        return falhar("Alerta: o índice espacial não está ativo.")
 
-    print(f"OK  tabela features/geom com SRID {registro[0]}")
+    print(f"OK  tabela tb_desenhos/geom com SRID {registro[0]}")
     print("OK  índice espacial R-tree ativo")
     print(f"OK  {total} geometria(s) no banco")
-    print("\nTudo pronto. Rode: uv run uvicorn main:app --reload")
+    print("\nTudo pronto. Rode: uv run fastapi dev")
     return 0
 
 

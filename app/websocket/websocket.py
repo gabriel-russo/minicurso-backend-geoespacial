@@ -1,3 +1,7 @@
+"""
+Camada de gerenciamento do Web Socket.
+"""
+
 from collections.abc import AsyncGenerator
 from typing import Any
 
@@ -40,8 +44,6 @@ async def websocket_checkup() -> None:
 
 
 async def acquire_websocket() -> AsyncGenerator[WebSocketManager]:
-    global _ws_manager
-
     if _ws_manager is None:
         raise HTTPException(status_code=500, detail="WebSocket not connected")
 

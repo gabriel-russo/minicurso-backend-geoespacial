@@ -1,16 +1,17 @@
-"""Camada de acesso ao banco espacial SQLite + SpatiaLite."""
+"""
+Camada de gerenciamento do banco de dados espacial SpatiaLite.
+"""
 
+from collections.abc import AsyncGenerator
 from pathlib import Path
 
-from aiosqlite import Row, connect
+from aiosqlite import Connection, Row, connect
 
 BASE_DIR = Path(__file__).resolve().parent
 DB_PATH = BASE_DIR / "mapa.sqlite"
 
-print(BASE_DIR, DB_PATH)
 
-
-async def acquire_connection():
+async def acquire_connection() -> AsyncGenerator[Connection]:
     async with connect(DB_PATH) as conn:
         # A extensão é carregada em TODA conexão nova. Isso é uma característica
         # do SQLite: cada conexão começa sem as funções espaciais.
@@ -25,7 +26,7 @@ async def database_checkup() -> None:
     if not DB_PATH.exists():
         raise RuntimeError(
             f"Banco não encontrado em {DB_PATH}.\n"
-            "Crie o banco com: spatialite data/mapa.sqlite < schema.sql"
+            "Crie o banco com: spatialite app/database/mapa.sqlite < estrutura_banco_de_dados.sql"
         )
 
     async with connect(DB_PATH) as conn, conn.cursor() as cur:
@@ -33,15 +34,14 @@ async def database_checkup() -> None:
             """
                 SELECT 1
                   FROM geometry_columns
-                 WHERE f_table_name = 'desenho'
+                 WHERE f_table_name = 'tb_desenhos'
                    AND f_geometry_column = 'geom'
                 """
         )
+
         registro = await cur.fetchone()
 
     if registro is None:
         raise RuntimeError(
-            "A tabela espacial features/geom não foi encontrada.\n"
-            "Recrie o banco com: rm -f data/mapa.sqlite && "
-            "spatialite data/mapa.sqlite < schema.sql"
+            "A tabela espacial tb_desenhos/geom não foi encontrada. Refaça o processo de criação do banco."
         )
