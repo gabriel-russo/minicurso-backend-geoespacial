@@ -28,7 +28,7 @@ async def websocket_endpoint(
                     criado_por,
                     criado_em, 
                     AsGeoJSON(geom) AS geom
-                FROM desenho
+                FROM tb_desenhos
             """)
 
             await websocket.send_json(
